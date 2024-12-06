@@ -2,7 +2,7 @@
   "name": "hello3",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://vvk2048.github.io/WalmartBillSplitter",
+"homepage": "https://vvk2048.github.io/WalmartBillSplitter",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

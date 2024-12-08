@@ -78,22 +78,20 @@ input {
   font-size: 1.2rem; /* Adjust font size for better balance */
   margin-bottom: 15px; /* Add spacing below the header */
   display: flex;
-  justify-content: space-between; /* Align "SELECT" and "Select All" */
+  justify-content: space-between;
   align-items: center;
 }
 
 /* Smaller "Select All" Button */
 .btn-select-all {
-  padding: 6px 12px; /* Reduced padding for smaller button size */
+  padding: 4px 10px; /* Reduced padding for smaller button size */
   font-size: 0.9rem; /* Slightly smaller font size */
-  line-height: 1.2; /* Ensures consistent button height */
   background: #28a745;
   border-radius: 5px;
   font-weight: bold; /* Keep text bold for readability */
   border: none;
   color: white;
   cursor: pointer;
-  margin-left: 10px; /* Adds spacing if needed for alignment */
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
@@ -103,25 +101,15 @@ input {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Individual Participant Checkbox */
+/* Checkbox Styling */
 .participant {
   display: inline-block;
-  margin-right: 20px; /* Add space between checkboxes */
-  margin-bottom: 10px; /* Add space for rows */
-  text-align: center; /* Center-align the checkbox and label */
-}
-
-.participant input[type="checkbox"] {
-  width: 18px; /* Adjust the size of the checkbox */
-  height: 18px; /* Keep the checkbox square */
-  vertical-align: middle; /* Align the checkbox vertically with the label */
-  margin-bottom: 5px; /* Add space between checkbox and label */
+  margin-right: 20px; /* Add spacing between checkboxes */
+  margin-bottom: 10px; /* Add spacing for better alignment */
 }
 
 .participant label {
-  font-size: 0.95rem; /* Slightly smaller font for balance */
-  display: block; /* Move label below checkbox */
-  margin-top: 3px; /* Add some space between checkbox and label */
+  font-size: 0.9rem; /* Adjust font size for consistency */
 }
 
 /* Buttons */

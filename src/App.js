@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
+import './BillSplitter.css';
 
 const BillSplitter = () => {
   const [billItems, setBillItems] = useState([]);
   const [description, setDescription] = useState('');
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState('');
   const [people] = useState(['Vivek', 'Vineeth', 'Vishal', 'Manideep', 'Prajwal']);
   const [selectedPeople, setSelectedPeople] = useState([]);
   const [editingIndex, setEditingIndex] = useState(-1);
   const [selectAll, setSelectAll] = useState(false);
 
-  // Handle toggling participant selection
   const handleToggle = (person) => {
     if (selectedPeople.includes(person)) {
       setSelectedPeople(selectedPeople.filter((p) => p !== person));
@@ -18,7 +18,6 @@ const BillSplitter = () => {
     }
   };
 
-  // Handle "Select All" toggle
   const handleSelectAll = () => {
     if (selectAll) {
       setSelectedPeople([]);
@@ -29,14 +28,14 @@ const BillSplitter = () => {
   };
 
   const handleAddOrUpdateItem = () => {
-    if (amount <= 0 || selectedPeople.length === 0) {
+    if (Number(amount) <= 0 || selectedPeople.length === 0) {
       alert('Please fill in all fields correctly.');
       return;
     }
 
     const newItem = {
       description,
-      amount,
+      amount: Number(amount),
       participants: [...selectedPeople],
     };
 
@@ -50,7 +49,7 @@ const BillSplitter = () => {
     }
 
     setDescription('');
-    setAmount(0);
+    setAmount('');
     setSelectedPeople([]);
     setSelectAll(false);
   };
@@ -58,7 +57,7 @@ const BillSplitter = () => {
   const handleEdit = (index) => {
     const item = billItems[index];
     setDescription(item.description);
-    setAmount(item.amount);
+    setAmount(String(item.amount));
     setSelectedPeople(item.participants);
     setEditingIndex(index);
     setSelectAll(item.participants.length === people.length);
@@ -86,40 +85,45 @@ const BillSplitter = () => {
     return totals;
   };
 
+  const handleAmountChange = (e) => {
+    const value = e.target.value;
+
+    // Allow only numeric values and prevent leading zeros
+    if (/^\d*$/.test(value)) {
+      setAmount(value === '' ? '' : value.replace(/^0+/, ''));
+    }
+  };
+
   return (
     <div className="bill-splitter">
-      <h2>Bill Splitter</h2>
+      <h1 className="header">Bill Splitter</h1>
 
       {/* Add or Edit Item */}
-      <div>
-        <h3>{editingIndex === -1 ? 'Add Bill Item' : 'Edit Bill Item'}</h3>
-        <div>
-          <label>Description: </label>
-          <input
-            type="text"
-            placeholder="Enter description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Amount: </label>
-          <input
-            type="number"
-            placeholder="Enter amount"
-            value={amount}
-            onChange={(e) => setAmount(Number(e.target.value))}
-          />
-        </div>
-        <div>
-          <h4>
-            Select Participants: 
-            <button onClick={handleSelectAll} style={{ marginLeft: '10px' }}>
+      <div className="form-card">
+        <h2>{editingIndex === -1 ? 'Add Bill Item' : 'Edit Bill Item'}</h2>
+        <label>Description:</label>
+        <input
+          type="text"
+          placeholder="Enter description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <label>Amount:</label>
+        <input
+          type="text"
+          placeholder="Enter amount"
+          value={amount}
+          onChange={handleAmountChange}
+        />
+        <div className="participants">
+          <h3>
+            SELECT: 
+            <button onClick={handleSelectAll} className="btn-select-all">
               {selectAll ? 'Unselect All' : 'Select All'}
             </button>
-          </h4>
+          </h3>
           {people.map((person) => (
-            <div key={person}>
+            <div key={person} className="participant">
               <label>
                 <input
                   type="checkbox"
@@ -131,24 +135,25 @@ const BillSplitter = () => {
             </div>
           ))}
         </div>
-        <button onClick={handleAddOrUpdateItem}>
+        <button onClick={handleAddOrUpdateItem} className="btn-primary">
           {editingIndex === -1 ? 'Add Item' : 'Update Item'}
         </button>
       </div>
 
-      {/* Display Items with Edit/Delete Options */}
-      <div>
-        <h3>Bill Items</h3>
+      {/* Display Items */}
+      <div className="items-list">
+        <h2>Bill Items</h2>
         {billItems.length > 0 ? (
           <ul>
             {billItems.map((item, index) => (
-              <li key={index}>
-                <strong>{item.description}</strong>: ${item.amount}
+              <li key={index} className="item-card">
+                <strong>{item.description}</strong>: ${item.amount.toFixed(2)}
                 <br />
                 Participants: {item.participants.join(', ')}
-                <br />
-                <button onClick={() => handleEdit(index)}>Edit</button>
-                <button onClick={() => handleDelete(index)}>Delete</button>
+                <div className="item-buttons">
+                  <button onClick={() => handleEdit(index)} className="btn-secondary">Edit</button>
+                  <button onClick={() => handleDelete(index)} className="btn-danger">Delete</button>
+                </div>
               </li>
             ))}
           </ul>
@@ -157,9 +162,9 @@ const BillSplitter = () => {
         )}
       </div>
 
-      {/* Calculate Totals */}
-      <div>
-        <h3>Totals</h3>
+      {/* Totals */}
+      <div className="totals">
+        <h2>Totals</h2>
         <ul>
           {Object.entries(calculateTotals()).map(([person, total]) => (
             <li key={person}>

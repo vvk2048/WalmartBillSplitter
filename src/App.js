@@ -88,9 +88,9 @@ const BillSplitter = () => {
   const handleAmountChange = (e) => {
     const value = e.target.value;
 
-    // Allow only numeric values and prevent leading zeros
-    if (/^\d*$/.test(value)) {
-      setAmount(value === '' ? '' : value.replace(/^0+/, ''));
+    // Allow only numeric values and a single decimal point
+    if (/^\d*\.?\d*$/.test(value)) {
+      setAmount(value);
     }
   };
 
@@ -117,7 +117,7 @@ const BillSplitter = () => {
         />
         <div className="participants">
           <h3>
-            SELECT: 
+            SELECT:
             <button onClick={handleSelectAll} className="btn-select-all">
               {selectAll ? 'Unselect All' : 'Select All'}
             </button>
